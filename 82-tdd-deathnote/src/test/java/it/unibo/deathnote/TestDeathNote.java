@@ -16,6 +16,8 @@ class TestDeathNote {
     private DeathNote deathNote;
 
     private static final int ACCEPTABLE_MESSAGE_LENGTH = 10;
+    private static final String FIRST_HUMAN = "Mario Rossi";
+    private static final String SECOND_HUMAN = "Andrea Bianchi";
 
     @BeforeEach
     void setUp() {
@@ -51,6 +53,15 @@ class TestDeathNote {
             assertNotNull(rule);
             assertFalse(rule.isBlank());
         }
+    }
+
+    @Test
+    void testWriteName() {
+        assertFalse(this.deathNote.isNameWritten(FIRST_HUMAN));
+        this.deathNote.writeName(FIRST_HUMAN);
+        assertTrue(this.deathNote.isNameWritten(FIRST_HUMAN));
+        assertFalse(this.deathNote.isNameWritten(SECOND_HUMAN));
+        assertFalse(this.deathNote.isNameWritten(""));
     }
 
 }
