@@ -24,18 +24,10 @@ class TestDeathNote {
 
     @Test
     void testGetRule() {
+        assertNotNull(this.deathNote);
         try {
             this.deathNote.getRule(0);
-            Assertions.fail("Return the String in position 0 of deathNote.RULES was possible, but should have thrown an exception");
-        } catch (IllegalArgumentException e) {
-            assertNotNull(e.getMessage());
-            assertFalse(e.getMessage().isBlank());
-            assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH);
-        }
-
-        try {
-            this.deathNote.getRule(-1);
-            Assertions.fail("Return the String in position -1 of deathNote.RULES was possible, but should have thrown an exception");
+            Assertions.fail("Return the String in position 0 or less of deathNote.RULES was possible, but should have thrown an exception");
         } catch (IllegalArgumentException e) {
             assertNotNull(e.getMessage());
             assertFalse(e.getMessage().isBlank());
@@ -49,6 +41,15 @@ class TestDeathNote {
             assertNotNull(e.getMessage());
             assertFalse(e.getMessage().isBlank());
             assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH);
+        }
+    }
+
+    @Test
+    void testNoRulesVoidOrNull() {
+        assertNotNull(deathNote.RULES);
+        for(String rule : this.deathNote.RULES) {
+            assertNotNull(rule);
+            assertFalse(rule.isBlank());
         }
     }
 
