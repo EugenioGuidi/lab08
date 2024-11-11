@@ -32,7 +32,6 @@ public class MiniGUI {
     public MiniGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
-        
         JLabel label = new JLabel(result, JLabel.CENTER);
         canvas.add(label, BorderLayout.NORTH);
         final JButton write = new JButton("Print a random number on standard output");
@@ -48,7 +47,9 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                result = String.valueOf(randomGenerator.nextInt());
+                label.setText(result);
+                System.out.println(result);
             }
         });
     }
