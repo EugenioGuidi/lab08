@@ -1,5 +1,6 @@
 package it.unibo.deathnote;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,6 +19,8 @@ class TestDeathNote {
     private static final int ACCEPTABLE_MESSAGE_LENGTH = 10;
     private static final String FIRST_HUMAN = "Mario Rossi";
     private static final String SECOND_HUMAN = "Andrea Bianchi";
+    private static final String DEFAULT_CAUSE_OF_DEATH = "heart attack";
+    private static final String CAUSE_OF_DEATH = "Karting accident";
 
     @BeforeEach
     void setUp() {
@@ -62,6 +65,36 @@ class TestDeathNote {
         assertTrue(this.deathNote.isNameWritten(FIRST_HUMAN));
         assertFalse(this.deathNote.isNameWritten(SECOND_HUMAN));
         assertFalse(this.deathNote.isNameWritten(""));
+    }
+
+    @Test
+    void testCauseOfDeath() {
+        try {
+            this.deathNote.writeDeathCause(CAUSE_OF_DEATH);
+            Assertions.fail("He wrote the causes of death even if the name of the person is not there, but should have thrown an exception");
+        } catch (IllegalStateException e) {
+            assertNotNull(e.getMessage());
+            assertFalse(e.getMessage().isBlank());
+            assertTrue(e.getMessage().length() >= ACCEPTABLE_MESSAGE_LENGTH);
+        }
+
+        this.deathNote.writeName(FIRST_HUMAN);
+        assertEquals(DEFAULT_CAUSE_OF_DEATH, this.deathNote.getDeathCause(FIRST_HUMAN));
+
+        this.deathNote.writeName(SECOND_HUMAN);
+        assertTrue(this.deathNote.writeDeathCause(CAUSE_OF_DEATH));
+
+        assertEquals(CAUSE_OF_DEATH, this.deathNote.getDeathCause(SECOND_HUMAN));
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        assertFalse(this.deathNote.writeDeathCause(DEFAULT_CAUSE_OF_DEATH));
+
+        assertEquals(this.deathNote.getDeathCause(SECOND_HUMAN), CAUSE_OF_DEATH);
     }
 
 }
