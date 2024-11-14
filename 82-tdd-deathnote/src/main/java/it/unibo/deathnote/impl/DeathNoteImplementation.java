@@ -7,16 +7,34 @@ import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImplementation implements DeathNote {
 
-    private Map<String, PairCuseDetails> map = new HashMap<>();
+    private Map<String, PairCauseDetails> map = new HashMap<>();
     private String lastNameWrote;
 
-    static class PairCuseDetails {
-        String cause;
-        String details;
+    private static final String CAUSE_OF_DEATH = "hearth attack";
 
-        PairCuseDetails(String cause, String details) {
+    static class PairCauseDetails {
+        private String cause;
+        private String details;
+
+        public PairCauseDetails() {
+            this.cause = CAUSE_OF_DEATH;
+            this.details = "";
+        }
+
+        void setCause (String cause) {
             this.cause = cause;
+        }
+
+        void setDeatails (String details) {
             this.details = details;
+        }
+
+        String getCause () {
+            return this.cause;
+        }
+
+        String getDetails () {
+            return this.details;
         }
     }
 
@@ -30,8 +48,6 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public void writeName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeName'");
     }
 
     @Override
