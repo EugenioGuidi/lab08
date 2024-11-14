@@ -8,10 +8,12 @@ import it.unibo.deathnote.api.DeathNote;
 public class DeathNoteImplementation implements DeathNote {
 
     private Map<String, PairCauseDetails> mapOfHumanDeath = new HashMap<>();
-    private String lastNameWrote;
+    private String lastNameWrote = null;
     private long currentTime;
 
     private static final String CAUSE_OF_DEATH = "hearth attack";
+    private static final long CAUSE_TIME = 40;
+    private static final long DETAILS_TIME = 6000;
 
     static class PairCauseDetails {
         private String cause;
@@ -61,8 +63,17 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public boolean writeDeathCause(String cause) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDeathCause'");
+        if(this.lastNameWrote == null || cause == null) {
+            throw new IllegalStateException("cause and name can't be null");
+        }
+        if(System.currentTimeMillis() - this.currentTime < CAUSE_TIME) {
+            PairCauseDetails pairCauseDetails = new PairCauseDetails();
+            pairCauseDetails.setCause(cause);
+            mapOfHumanDeath.put(this.lastNameWrote, pairCauseDetails);
+            this.currentTime = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
     @Override
