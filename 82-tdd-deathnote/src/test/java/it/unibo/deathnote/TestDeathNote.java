@@ -44,7 +44,7 @@ class TestDeathNote {
         }
 
         try {
-            this.deathNote.getRule(this.deathNote.RULES.size() + 1);
+            this.deathNote.getRule(DeathNote.RULES.size() + 1);
             Assertions.fail("Returned a string that isn't in RULES, but should have thrown an exception");
         } catch (IllegalArgumentException e) {
             assertNotNull(e.getMessage());
@@ -55,8 +55,8 @@ class TestDeathNote {
 
     @Test
     void testNoRulesVoidOrNull() {
-        assertNotNull(deathNote.RULES);
-        for(String rule : this.deathNote.RULES) {
+        assertNotNull(DeathNote.RULES);
+        for(String rule : DeathNote.RULES) {
             assertNotNull(rule);
             assertFalse(rule.isBlank());
         }
@@ -114,7 +114,7 @@ class TestDeathNote {
         this.deathNote.writeName(FIRST_HUMAN);
         assertEquals("", this.deathNote.getDeathDetails(FIRST_HUMAN));
         assertTrue(this.deathNote.writeDetails(DETAILS_OF_DEATH));
-        assertEquals(DETAILS_OF_DEATH, this.deathNote.getDeathDetails(CAUSE_OF_DEATH));
+        assertEquals(DETAILS_OF_DEATH, this.deathNote.getDeathDetails(FIRST_HUMAN));
         this.deathNote.writeName(SECOND_HUMAN);
         try {
             Thread.sleep(INVALID_DETAILS_TIME);
