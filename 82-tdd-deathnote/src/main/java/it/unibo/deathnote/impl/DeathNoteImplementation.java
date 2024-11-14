@@ -11,7 +11,7 @@ public class DeathNoteImplementation implements DeathNote {
     private String lastNameWrote = null;
     private long currentTime;
 
-    private static final String CAUSE_OF_DEATH = "hearth attack";
+    private static final String CAUSE_OF_DEATH = "heart attack";
     private static final long CAUSE_TIME = 40;
     private static final long DETAILS_TIME = 6000;
 
@@ -84,8 +84,10 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public String getDeathCause(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathCause'");
+        if(isNameWritten(name)) {
+            return mapOfHumanDeath.get(name).getCause();
+        }
+        throw new IllegalArgumentException("The name isn't in the book");
     }
 
     @Override
