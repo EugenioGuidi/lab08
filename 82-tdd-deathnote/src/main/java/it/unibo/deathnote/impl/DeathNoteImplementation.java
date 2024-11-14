@@ -1,13 +1,31 @@
 package it.unibo.deathnote.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImplementation implements DeathNote {
 
+    private Map<String, PairCuseDetails> map = new HashMap<>();
+    private String lastNameWrote;
+
+    static class PairCuseDetails {
+        String cause;
+        String details;
+
+        PairCuseDetails(String cause, String details) {
+            this.cause = cause;
+            this.details = details;
+        }
+    }
+
     @Override
     public String getRule(int ruleNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRule'");
+        if(ruleNumber < 1 || ruleNumber > RULES.size()) {
+            throw new IllegalArgumentException("Tried to access into a non-existent RULES location");
+        }
+        return RULES.get(ruleNumber - 1);
     }
 
     @Override
