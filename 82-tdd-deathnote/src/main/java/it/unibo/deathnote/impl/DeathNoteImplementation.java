@@ -7,7 +7,7 @@ import it.unibo.deathnote.api.DeathNote;
 
 public class DeathNoteImplementation implements DeathNote {
 
-    private Map<String, PairCauseDetails> map = new HashMap<>();
+    private Map<String, PairCauseDetails> mapOfHumanDeath = new HashMap<>();
     private String lastNameWrote;
 
     private static final String CAUSE_OF_DEATH = "hearth attack";
@@ -48,6 +48,9 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public void writeName(String name) {
+        if(!isNameWritten(name)) {
+            mapOfHumanDeath.put(name, new PairCauseDetails());
+        }
     }
 
     @Override
@@ -76,8 +79,10 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public boolean isNameWritten(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isNameWritten'");
+        if(mapOfHumanDeath.containsKey(name)) {
+            return true;
+        }
+        return false;
     }
     
 }
