@@ -9,6 +9,7 @@ public class DeathNoteImplementation implements DeathNote {
 
     private Map<String, PairCauseDetails> mapOfHumanDeath = new HashMap<>();
     private String lastNameWrote;
+    private long currentTime;
 
     private static final String CAUSE_OF_DEATH = "hearth attack";
 
@@ -48,8 +49,13 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public void writeName(String name) {
+        if(name == null) {
+            throw new NullPointerException("The name can't be null");
+        }
         if(!isNameWritten(name)) {
             mapOfHumanDeath.put(name, new PairCauseDetails());
+            this.lastNameWrote = name;
+            this.currentTime = System.currentTimeMillis();
         }
     }
 
