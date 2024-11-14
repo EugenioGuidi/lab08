@@ -13,7 +13,7 @@ public class DeathNoteImplementation implements DeathNote {
 
     private static final String CAUSE_OF_DEATH = "heart attack";
     private static final long CAUSE_TIME = 40;
-    private static final long DETAILS_TIME = 6000;
+    private static final long DETAILS_TIME = 6000 + CAUSE_TIME;
 
     static class PairCauseDetails {
         private String cause;
@@ -28,7 +28,7 @@ public class DeathNoteImplementation implements DeathNote {
             this.cause = cause;
         }
 
-        void setDeatails (String details) {
+        void setDetails (String details) {
             this.details = details;
         }
 
@@ -64,7 +64,7 @@ public class DeathNoteImplementation implements DeathNote {
     @Override
     public boolean writeDeathCause(String cause) {
         if(this.lastNameWrote == null || cause == null) {
-            throw new IllegalStateException("cause and name can't be null");
+            throw new IllegalStateException("cause and name of human can't be null");
         }
         if(System.currentTimeMillis() - this.currentTime < CAUSE_TIME) {
             PairCauseDetails pairCauseDetails = new PairCauseDetails();
@@ -78,8 +78,17 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public boolean writeDetails(String details) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'writeDetails'");
+        if(details == null || this.lastNameWrote == null) {
+            throw new IllegalStateException("datails and name of human can't be null");
+        }
+        if(System.currentTimeMillis() - this.currentTime < DETAILS_TIME) {
+            PairCauseDetails pairCauseDetails = new PairCauseDetails();
+            pairCauseDetails.setDetails(details);
+            pairCauseDetails.setCause(mapOfHumanDeath.get(this.lastNameWrote).getCause());
+            mapOfHumanDeath.put(this.lastNameWrote, pairCauseDetails);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -92,8 +101,10 @@ public class DeathNoteImplementation implements DeathNote {
 
     @Override
     public String getDeathDetails(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDeathDetails'");
+        if(isNameWritten(name)) {
+            return mapOfHumanDeath.get(name).getDetails();
+        }
+        throw new IllegalArgumentException("The name isn't in the book");
     }
 
     @Override
@@ -103,6 +114,5 @@ public class DeathNoteImplementation implements DeathNote {
         }
         return false;
     }
-    
 }
 
