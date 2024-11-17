@@ -32,20 +32,17 @@ public final class LaunchApp {
     public static void main(final String... args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
         final var model = new DrawNumberImpl();
         final DrawNumberController app = new DrawNumberControllerImpl(model);
-        final Class<?> class1 = Class.forName("it.unibo.mvc.view.DrawNumberSwingView");
-        final Class<?> class2 = Class.forName("it.unibo.mvc.view.DrawNumberStdoutView");
-        var swingView = class1.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) swingView);
-        swingView = class1.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) swingView);
-        swingView = class1.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) swingView);
 
-        var stdoutView = class2.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) stdoutView);
-        stdoutView = class2.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) stdoutView);
-        stdoutView = class2.getConstructor(null).newInstance();
-        app.addView((DrawNumberView) stdoutView);
+        final Class<?> classSwingView = Class.forName("it.unibo.mvc.view.DrawNumberSwingView");
+        Object swingView;
+
+        final Class<?> classStdoutView = Class.forName("it.unibo.mvc.view.DrawNumberStdoutView");
+        Object stdoutView;
+        for(int i = 0; i < 3 ; i++) {
+            swingView = classSwingView.getConstructor(null).newInstance();
+            app.addView((DrawNumberView) swingView);
+            stdoutView = classStdoutView.getConstructor(null).newInstance();
+            app.addView((DrawNumberView) stdoutView);
+        }
     }
 }
